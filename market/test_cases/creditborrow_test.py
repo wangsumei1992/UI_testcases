@@ -2,19 +2,17 @@
 import os, sys
 import unittest
 import time
-from selenium import webdriver
+#from selenium import webdriver
 dir = os.path.dirname(os.path.dirname(__file__))
 sys.path.append(dir + "/pages")
-#sys.path.append(dir + "driver")
-#from driver import my_driver
+sys.path.append(dir + "/driver")
+from driver import my_driver
 from creditborrow import CreditBorrowPage
 
 class CreditborrowTest(unittest.TestCase):
 
-    @classmethod
-    def setUpClass(self):
-        self.dr = webdriver.Chrome()
-        self.dr.maximize_window()
+    def setUp(self):
+        self.dr = my_driver()
         self.creditborrow_p = CreditBorrowPage(self.dr)
         self.creditborrow_p.open()
 
@@ -26,7 +24,7 @@ class CreditborrowTest(unittest.TestCase):
 
     def test2_codeinput_error(self):
         '''验证码输入错误，后台验证'''
-        self.creditborrow_p.form_submit()
+        self.creditborrow_p.form_submit(captchaCode="1234")
         text4 = self.creditborrow_p.credit_msg()
         self.assertIn(u'验证码不正确', text4)
 
@@ -46,12 +44,12 @@ class CreditborrowTest(unittest.TestCase):
         self.assertIn(u'请输入借款期限', term_error)
         self.assertIn(u'请输入验证码', code_error)
 
-    @classmethod
-    def tearDownClass(self):
+    def tearDown(self):
         self.dr.quit()
 
 if __name__ == '__main__':
     unittest.main()
+
 
 
 
