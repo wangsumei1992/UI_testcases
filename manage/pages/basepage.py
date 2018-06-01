@@ -27,6 +27,9 @@ class BasePage:
     def by_css(self, css_loc):
         return self.driver.find_element_by_css_selector(css_loc)
 
+    def by_csses(self, css_loc):
+        return self.driver.find_elements_by_css_selector(css_loc)
+
     def by_xpath(self, xpath):
         return self.driver.find_element_by_xpath(xpath)
 
@@ -46,7 +49,7 @@ class BasePage:
         return self.driver.find_element_by_link_text(link_text)
 
     def switch_alert(self):
-        return self.driver.switch_to_alert()
+        return self.driver.switch_to.alert
 
     # 竖向滚动条拉动
     def scroll(self, size):
